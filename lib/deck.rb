@@ -1,6 +1,11 @@
 class Deck
   def initialize
+    @cards = make
   end
+
+  attr_reader :cards
+
+  private
 
   def make
     result = []
