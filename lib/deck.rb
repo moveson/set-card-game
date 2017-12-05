@@ -5,6 +5,10 @@ class Deck
 
   attr_reader :cards
 
+  def deal(n)
+    cards.pop(n)
+  end
+
   private
 
   def make
