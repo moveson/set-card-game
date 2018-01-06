@@ -17,12 +17,17 @@ class Card
   end
 
   def ==(other)
-    to_s == other.to_s
+    color == other.color &&
+        number == other.number &&
+        shading == other.shading &&
+        shape == other.shape
   end
 
-  private
+  protected
 
   attr_reader :color, :number, :shading, :shape
+
+  private
 
   def validate_setup
     raise ArgumentError, "Color #{color} is not recognized." unless COLORS.include?(color)
