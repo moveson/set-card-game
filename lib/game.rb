@@ -4,12 +4,18 @@ class Game
   def initialize(player_names)
     @players = player_names.map { |player_name| Player.new(player_name) }
     @deck = make_deck.shuffle
+    @board = []
+    deal(12)
     validate_setup
+  end
+
+  def deal(n)
+    deck.pop(n).each { |card| board << card }
   end
 
   private
 
-  attr_reader :players, :deck
+  attr_reader :players, :deck, :board
 
   def make_deck
     result = []
