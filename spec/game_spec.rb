@@ -47,4 +47,42 @@ RSpec.describe Game do
       expect(subject.send(:board).size).to eq(15)
     end
   end
+
+  describe '#print_board' do
+    it 'outputs a grid of card strings' do
+      cards = [Card.new('R', '1', 'E', 'S'), Card.new('R', '2', 'E', 'S'), Card.new('R', '3', 'E', 'S'),
+               Card.new('G', '1', 'E', 'S'), Card.new('G', '2', 'E', 'S'), Card.new('G', '3', 'E', 'S')]
+      expected = <<~OUTPUT
+        R1ES R2ES R3ES
+        G1ES G2ES G3ES
+      OUTPUT
+
+      allow(subject).to receive(:board).and_return(cards)
+      expect(subject.print_board).to eq(expected)
+    end
+  end
+
+  describe '#set?' do
+    it 'raises an error if given more or less than 3 cards' do
+      game = Game.new(%w(player_name_1 player_name_2))
+      cards = [Card.new('R', '1', 'E', 'S'), Card.new('R', '2', 'E', 'S'), Card.new('R', '3', 'E', 'S'),
+               Card.new('G', '1', 'E', 'S'), Card.new('G', '2', 'E', 'S'), Card.new('G', '3', 'E', 'S')]
+      expect { game.set?(cards) }.to raise_error(ArgumentError)
+    end
+
+    it 'returns false when given 3 cards that are not a set' do
+      cards = [Card.new('R', '1', 'E', 'S'), Card.new('R', '2', 'E', 'S'), Card.new('B', '3', 'E', 'S')]
+      expect(subject.set?(cards)).to eq(false)
+    end
+
+    it 'returns true when given 3 cards that are a set' do
+      cards = [Card.new('R', '1', 'E', 'S'), Card.new('R', '2', 'E', 'S'), Card.new('R', '3', 'E', 'S')]
+      expect(subject.set?(cards)).to eq(true)
+    end
+
+    it 'returns true given 3 cards with all different attributes' do
+      cards = [Card.new('B', '1', 'F', 'S'), Card.new('R', '2', 'E', 'O'), Card.new('G', '3', 'H', 'D')]
+      expect(subject.set?(cards)).to eq(true)
+    end
+  end
 end

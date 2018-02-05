@@ -23,8 +23,6 @@ class Card
         shape == other.shape
   end
 
-  protected
-
   attr_reader :color, :number, :shading, :shape
 
   private
